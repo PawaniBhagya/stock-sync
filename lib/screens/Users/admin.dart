@@ -72,14 +72,14 @@ class Admin extends StatelessWidget {
 
             SizedBox(height: 20),
             // edit bills
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                foregroundColor: secondaryColor,
-              ),
-              child: Text("Edit Bills"),
-            )
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: primaryColor,
+            //     foregroundColor: secondaryColor,
+            //   ),
+            //   child: Text("Edit Bills"),
+            // )
           ],
         ),
       ),

@@ -74,15 +74,6 @@ class _RefState extends State<Ref> {
                                 Get.to(() => const AllBills());
                               },
                             ),
-                            FilterButton(
-                              buttonText: "Paid",
-                              onPressed: () {},
-                            ),
-                            FilterButton(
-                              buttonText: "Unpaid",
-                              onPressed: () {},
-                            ),
-
                           ],
                         ),
                         const SizedBox(
