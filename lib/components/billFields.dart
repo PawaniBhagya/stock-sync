@@ -45,8 +45,12 @@ class _BillFieldsState extends State<BillFields> {
       await _billRepo.createBill(bill);
 
       print('Bill created successfully');
+      Get.snackbar("Success", "Added Bill Successfully.....!");
     } else {
       print('Please fill in all fields and add at least one product.');
+      Get.snackbar("Failed", "Check your fields.....!");
+
+
     }
   }
 
