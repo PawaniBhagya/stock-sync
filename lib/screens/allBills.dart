@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart'; // Add this import
+import 'package:stock_sync/components/billData.dart';
+import 'package:stock_sync/models/billModel.dart';
+import 'package:stock_sync/repository/billRepo.dart';
+
+class AllBills extends StatefulWidget {
+  const AllBills({super.key});
+
+  @override
+  State<AllBills> createState() => _AllBillsState();
+}
+
+class _AllBillsState extends State<AllBills> {
+  final BillRepo _billRepo = Get.put(BillRepo());
+  Future<List<Bill>>? _billsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _billsFuture = _billRepo.getAllBills();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                "All Bills",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("shop", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("date", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("total", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("status", style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+              FutureBuilder<List<Bill>>(
+                future: _billsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Text('No bills found');
+                  } else {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final bill = snapshot.data![index];
+                          final formattedDate = DateFormat('MM/dd').format(bill.date); // Format the date
+                          return BillData(
+                            shop: bill.shopName,
+                            date: formattedDate, // Use the formatted date
+                            total: bill.totalPrice,
+                            status: bill.status,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
